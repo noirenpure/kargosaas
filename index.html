@@ -219,6 +219,28 @@
       .mobile-filters-container { display: flex !important; width: 100%; gap: 10px; margin-top: 5px; position: relative; z-index: 99; }
       .mobile-filter-btn { flex: 1; padding: 12px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; position: relative; z-index: 100; }
       .mobile-filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+      /* Mobil filtre selectleri — pill buton görünümü */
+      .filters { gap: 8px !important; flex-wrap: wrap; }
+      .filters select {
+        -webkit-appearance: none; appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232D6B48' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 10px center !important;
+        background-size: 14px !important;
+        background-color: var(--accent-light) !important;
+        border: 1.5px solid rgba(45,107,72,0.25) !important;
+        border-radius: 20px !important;
+        color: var(--accent-mid) !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        padding: 8px 32px 8px 14px !important;
+        min-width: 0 !important;
+        width: auto !important;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s;
+      }
+      .filters select:focus { outline: none; border-color: var(--accent-mid) !important; background-color: var(--accent-light) !important; }
       
       input, select, textarea, .btn { padding: 10px !important; font-size: 13px !important; } 
       
