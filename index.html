@@ -1044,9 +1044,37 @@ async function openEditModal(id) {
 }
 
 async function saveEdit() {
-  const updates = { g_adsoyad: document.getElementById('e-g-adsoyad').value.trim(), g_tel: document.getElementById('e-g-tel').value.trim(), g_il: document.getElementById('e-g-il').value.trim(), g_adres: document.getElementById('e-g-adres').value.trim(), a_adsoyad: document.getElementById('e-a-adsoyad').value.trim(), a_tel: document.getElementById('e-a-tel').value.trim(), a_il: document.getElementById('e-a-il').value.trim(), a_adres: document.getElementById('e-a-adres').value.trim(), odeme_tipi: document.getElementById('e-odeme-tipi').value, ucret: document.getElementById('e-odeme-tipi').value === 'evet' ? (parseFloat(document.getElementById('e-ucret').value)||0) : 0, aciklama: document.getElementById('e-aciklama').value.trim(), updated_at: new Date().toISOString() };
-  await sb.from('kargolar').update(updates).eq('id', editingKargoId); toast('Kargo güncellendi', 'success'); closeModal('edit-modal');
-  const activePage = document.querySelector('.page.active')?.id; if (activePage === 'page-tumkargolar') loadAdminKargolar(); else if (activePage === 'page-kargolar') loadMainKargolar();
+  const updates = { 
+    g_adsoyad: document.getElementById('e-g-adsoyad').value.trim(), 
+    g_tel: document.getElementById('e-g-tel').value.trim(), 
+    g_il: document.getElementById('e-g-il').value.trim(), 
+    g_adres: document.getElementById('e-g-adres').value.trim(), 
+    a_adsoyad: document.getElementById('e-a-adsoyad').value.trim(), 
+    a_tel: document.getElementById('e-a-tel').value.trim(), 
+    a_il: document.getElementById('e-a-il').value.trim(), 
+    a_adres: document.getElementById('e-a-adres').value.trim(), 
+    odeme_tipi: document.getElementById('e-odeme-tipi').value, 
+    ucret: document.getElementById('e-odeme-tipi').value === 'evet' ? (parseFloat(document.getElementById('e-ucret').value)||0) : 0, 
+    aciklama: document.getElementById('e-aciklama').value.trim(), 
+    updated_at: new Date().toISOString() 
+  };
+  
+  // 1. DÜZELTME: Veritabanından dönen hatayı yakalamak için kontrol ekledik
+  const { error } = await sb.from('kargolar').update(updates).eq('id', editingKargoId); 
+  
+  if (error) {
+    alert('Veritabanı Güncelleme Hatası: ' + error.message);
+    return;
+  }
+  
+  toast('Kargo güncellendi', 'success'); 
+  closeModal('edit-modal');
+  
+  // 2. DÜZELTME: Genel bakış (dashboard) sayfasının yenilenmesini buraya entegre ettik
+  const activePage = document.querySelector('.page.active')?.id; 
+  if (activePage === 'page-tumkargolar') loadAdminKargolar(); 
+  else if (activePage === 'page-kargolar') loadMainKargolar();
+  else if (activePage === 'page-dashboard') loadDashboard(); 
 }
 
 function kargoTable(data, isAdmin) { 
