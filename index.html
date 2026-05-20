@@ -37,8 +37,7 @@
     #auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg); }
     .auth-card { background: var(--surface); border-radius: var(--radius-lg); padding: 2.5rem; width: 420px; max-width: 95vw; box-shadow: var(--shadow); border: 1px solid var(--border); }
     .auth-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 2rem; }
-    .auth-logo-icon { width: 38px; height: 38px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .auth-logo-icon svg { width: 20px; height: 20px; fill: none; stroke: white; stroke-width: 2; }
+    .auth-logo-icon { width: 38px; height: 38px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white;}
     .auth-logo span { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
     .auth-logo sub { font-size: 11px; color: var(--text3); display: block; line-height: 1; }
     .form-group { margin-bottom: 14px; }
@@ -59,8 +58,7 @@
     #app { display: none; min-height: 100vh; }
     .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 230px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; }
     .sidebar-logo { padding: 1.25rem 1.25rem 1rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
-    .logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: white;}
-    .logo-icon svg { width: 16px; height: 16px; fill: none; stroke: white; stroke-width: 2; }
+    .logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: white;}
     .logo-text { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
     .nav { flex: 1; padding: 0.75rem; overflow-y: auto; }
     .nav-section { font-size: 10px; font-weight: 600; color: var(--text3); letter-spacing: 0.8px; text-transform: uppercase; padding: 8px 8px 4px; margin-top: 8px; }
@@ -205,7 +203,7 @@
       
       input, select, textarea, .btn { padding: 10px !important; font-size: 13px !important; } 
       
-      .card-body, #kargolarim-table, #admin-kargolar-table, #admin-son-kargolar, #admin-bekleyen-odemeler, #musteriler-table, #kullanicilar-table { overflow-x: hidden; padding: 5px; background: transparent; }
+      .card-body, #main-kargolar-table, #admin-kargolar-table, #admin-son-kargolar, #admin-bekleyen-odemeler, #musteriler-table, #kullanicilar-table { overflow-x: hidden; padding: 5px; background: transparent; }
       .card { background: transparent; border: none; }
       table, thead, tbody, th, td, tr { display: block; width: 100%; }
       thead tr { display: none; } 
@@ -262,7 +260,7 @@
     <nav class="nav" id="nav-container"></nav>
     <div class="sidebar-user">
       <div class="user-info">
-        <div class="user-avatar" id="user-avatar-text">AK</div>
+        <div class="user-avatar" id="user-avatar-text">--</div>
         <div>
           <div class="user-name" id="user-display-name">Kullanıcı</div>
           <div class="user-role" id="user-display-role" style="text-transform: capitalize;">Müşteri</div>
@@ -584,8 +582,6 @@ function updateUserInfo() {
   document.getElementById('user-display-role').textContent = roleName; 
   document.getElementById('user-avatar-text').textContent = initials;
   document.getElementById('welcome-name').textContent = `Merhaba, ${currentProfile?.first_name || 'Kullanıcı'} 👋`;
-  
-  document.querySelectorAll('.auth-logo span').forEach(el => el.innerHTML = '<strong>ADA</strong>KARGO');
 }
 
 function initMonthFilters() {
@@ -606,7 +602,6 @@ function initMonthFilters() {
   });
 }
 
-// AMBARGOLU VETABANI SEÇİMİ VE ÇAKIŞMA HATASI GİDERİLDİ (.select('*'))
 async function fetchMyScopeKargolar() {
   const { data } = await sb.from('kargolar').select('*').order('created_at', { ascending: false });
   return data || [];
@@ -615,7 +610,9 @@ async function fetchMyScopeKargolar() {
 async function loadDashboard() {
   const all = await fetchMyScopeKargolar();
   const currentMonth = new Date().toISOString().slice(0,7);
-  const currentMonthCargos = all.filter(k => k.created_at.startsWith(currentMonth));
+  
+  // Güvenli Tarih Filtresi
+  const currentMonthCargos = all.filter(k => (k.created_at || '').startsWith(currentMonth));
   
   let label2, value2, label3, value3, label4, value4;
 
@@ -646,37 +643,62 @@ async function loadDashboard() {
       <div class="stat-sub">${s.sub}</div>
     </div>`).join('');
     
-  const son5 = currentMonthCargos.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,5); 
+  // Güvenli Tarih Sıralaması
+  const son5 = currentMonthCargos.sort((a,b)=>new Date(b.created_at || 0)-new Date(a.created_at || 0)).slice(0,5); 
   document.getElementById('main-son-kargolar').innerHTML = son5.length ? kargoTable(son5, currentProfile?.role !== 'musteri') : emptyState('Bu ay henüz kargo yok');
 }
 
+let mainKargolarAll = [];
+let mainKargolarFiltered = [];
+let mainSearchQ = '';
+let mainStatusQ = '';
+let mainMonthQ = '';
+
 async function loadMainKargolar() {
-  document.getElementById('main-kargolar-table').innerHTML = '<div class="loading"><div class="spinner"></div> Yükleniyor...</div>';
-  document.getElementById('kargolar-baslik').textContent = currentProfile?.role === 'acente' ? 'Şube Kargoları' : 'Kargolarım';
-  mainKargolarAll = await fetchMyScopeKargolar();
-  mainKargolarFiltered = [...mainKargolarAll]; 
-  applyMainFilters();
+  try {
+    document.getElementById('main-kargolar-table').innerHTML = '<div class="loading"><div class="spinner"></div> Yükleniyor...</div>';
+    document.getElementById('kargolar-baslik').textContent = currentProfile?.role === 'acente' ? 'Şube Kargoları' : 'Kargolarım';
+    
+    mainKargolarAll = await fetchMyScopeKargolar();
+    mainKargolarFiltered = [...mainKargolarAll]; 
+    applyMainFilters();
+  } catch(e) {
+    document.getElementById('main-kargolar-table').innerHTML = emptyState('Sistem verileri okunurken bir hata oluştu.');
+  }
 }
 
 function filterMainKargolar(q) { mainSearchQ = q.toLowerCase(); applyMainFilters(); }
 function filterMainKargolarDurum(durum) { mainStatusQ = durum; applyMainFilters(); }
 function filterMainKargolarAy(ay) { mainMonthQ = ay; applyMainFilters(); }
 
+// ─── %100 KURŞUN GEÇİRMEZ FİLTRE MOTORU ───
 function applyMainFilters() {
-  mainKargolarFiltered = mainKargolarAll.filter(k => {
-    const mSearch = k.tracking_no.toLowerCase().includes(mainSearchQ) || k.a_adsoyad.toLowerCase().includes(mainSearchQ);
-    const mStatus = mainStatusQ ? k.durum === mainStatusQ : true;
-    const mMonth = mainMonthQ ? k.created_at.startsWith(mainMonthQ) : true;
-    return mSearch && mStatus && mMonth;
-  });
-  document.getElementById('main-kargolar-table').innerHTML = mainKargolarFiltered.length ? kargoTable(mainKargolarFiltered, currentProfile?.role !== 'musteri') : emptyState('Kargo bulunamadı');
+  try {
+    mainKargolarFiltered = mainKargolarAll.filter(k => {
+      // Olası boş/hatalı veritabanı satırlarının sistemi çökertmesini (NullPointerException) engelliyoruz
+      const track = (k.tracking_no || '').toLowerCase();
+      const alici = (k.a_adsoyad || '').toLowerCase();
+      
+      const mSearch = track.includes(mainSearchQ) || alici.includes(mainSearchQ);
+      const mStatus = mainStatusQ ? k.durum === mainStatusQ : true;
+      const mMonth = mainMonthQ ? (k.created_at || '').startsWith(mainMonthQ) : true;
+      
+      return mSearch && mStatus && mMonth;
+    });
+    
+    document.getElementById('main-kargolar-table').innerHTML = mainKargolarFiltered.length ? kargoTable(mainKargolarFiltered, currentProfile?.role !== 'musteri') : emptyState('Kargo bulunamadı');
+  } catch (e) {
+    document.getElementById('main-kargolar-table').innerHTML = emptyState('Filtreleme sırasında teknik bir hata oluştu.');
+  }
 }
 
 async function loadRaporlar() {
   document.getElementById('rapor-stats').innerHTML = '<div class="loading"><div class="spinner"></div> Hesaplanıyor...</div>';
   const all = await fetchMyScopeKargolar();
+
   const selectedMonth = document.getElementById('rapor-ay-filter')?.value;
-  const filtered = selectedMonth ? all.filter(k => k.created_at.startsWith(selectedMonth)) : all;
+  // Güvenli Tarih Filtresi
+  const filtered = selectedMonth ? all.filter(k => (k.created_at || '').startsWith(selectedMonth)) : all;
 
   const toplam = filtered.length;
   const tahsilatli = filtered.filter(k => k.odeme_tipi === 'evet');
@@ -767,7 +789,6 @@ async function saveUserRole() {
   loadKullanicilar();
 }
 
-// ADK KOD MOTORU ENTEGRE EDİLDİ
 async function getNextTrackingNo() {
   const { data, error } = await sb.from('kargolar').select('tracking_no').like('tracking_no', 'ADK%').order('created_at', { ascending: false }).limit(1); 
   if (error || !data || data.length === 0) return 'ADK1';
@@ -779,7 +800,7 @@ async function getNextTrackingNo() {
 function toggleUcret(inputId, deger) { 
   const kapsayici = document.getElementById(inputId + '-kapsayici');
   const input = document.getElementById(inputId); 
-  if (dever === 'evet') { kapsayici.style.display = 'block'; } else { kapsayici.style.display = 'none'; input.value = ''; } 
+  if (deger === 'evet') { kapsayici.style.display = 'block'; } else { kapsayici.style.display = 'none'; input.value = ''; } 
 }
 
 async function loadYeniKargoPage() {
@@ -837,20 +858,50 @@ async function createKargo() {
   } catch (err) { if(btn) { btn.disabled = false; btn.textContent = 'Kargo Oluştur'; } }
 }
 
+let currentMobileAdminFilter = 'beklemede';
+function setMobileAdminFilter(status) { 
+  currentMobileAdminFilter = status; 
+  document.getElementById('m-btn-beklemede').classList.toggle('active', status === 'beklemede'); 
+  document.getElementById('m-btn-teslim').classList.toggle('active', status === 'teslim'); 
+  loadAdminKargolar(); 
+}
+
 async function loadAdminKargolar() {
   document.getElementById('admin-kargolar-table').innerHTML = '<div class="loading"><div class="spinner"></div> Yükleniyor...</div>';
   let q = sb.from('kargolar').select('*').order('created_at', { ascending: false });
-  const ay = document.getElementById('admin-ay-filter')?.value; if (ay) q = q.like('created_at', `${ay}%`);
-  if (window.innerWidth <= 768) { q = q.eq('durum', currentMobileAdminFilter); } 
-  else {
+  
+  const ay = document.getElementById('admin-ay-filter')?.value; 
+  if (ay) q = q.like('created_at', `${ay}%`);
+  
+  if (window.innerWidth <= 768) { 
+    q = q.eq('durum', currentMobileAdminFilter); 
+  } else {
     const dur = document.getElementById('admin-durum-filter')?.value; const ode = document.getElementById('admin-odeme-filter')?.value; 
     if (dur) q = q.eq('durum', dur); if (ode) q = q.eq('odeme_durumu', ode); 
   }
-  const { data } = await q; allKargolar = data || []; renderAdminKargolar(allKargolar);
+  
+  const { data } = await q; 
+  allKargolar = data || []; 
+  renderAdminKargolar(allKargolar);
 }
 
-function filterAdminKargolar(q) { q = q.toLowerCase(); const filtered = allKargolar.filter(k => k.tracking_no.toLowerCase().includes(q) || k.a_adsoyad.toLowerCase().includes(q) || k.g_adsoyad.toLowerCase().includes(q)); renderAdminKargolar(filtered); }
-function renderAdminKargolar(data) { if (!data.length) { document.getElementById('admin-kargolar-table').innerHTML = emptyState('Kargo bulunamadı'); return; } document.getElementById('admin-kargolar-table').innerHTML = kargoTable(data, true); }
+// ─── KURŞUN GEÇİRMEZ (NULL-SAFE) FİLTRE MOTORU - ADMİN İÇİN ───
+function filterAdminKargolar(q) { 
+  try {
+    q = q.toLowerCase(); 
+    const filtered = allKargolar.filter(k => 
+      (k.tracking_no || '').toLowerCase().includes(q) || 
+      (k.a_adsoyad || '').toLowerCase().includes(q) || 
+      (k.g_adsoyad || '').toLowerCase().includes(q)
+    ); 
+    renderAdminKargolar(filtered); 
+  } catch(e) {}
+}
+
+function renderAdminKargolar(data) { 
+  if (!data.length) { document.getElementById('admin-kargolar-table').innerHTML = emptyState('Kargo bulunamadı'); return; } 
+  document.getElementById('admin-kargolar-table').innerHTML = kargoTable(data, true); 
+}
 
 async function showKargoDetail(id) {
   const { data: k } = await sb.from('kargolar').select('*').eq('id', id).single();
@@ -953,8 +1004,8 @@ function badgeHtml(durum) { const labels = { beklemede:'Beklemede', teslim:'Tesl
 function badgeOdeme(d) { return `<span class="badge badge-${d==='odendi'?'odendi':'bekliyor'}">${d==='odendi'?'Ödendi':'Bekliyor'}</span>`; }
 function durumLabel(d) { return { beklemede:'Beklemede', teslim:'Teslim Edildi', iptal:'İptal' }[d] || d; }
 function emptyState(msg) { return `<div class="empty-state"><div class="empty-icon">📦</div><p>${msg}</p></div>`; }
-function fmtDate(d) { return new Date(d).toLocaleDateString('tr-TR', { day:'2-digit', month:'2-digit', year:'numeric' }); }
-function fmtDateFull(d) { return new Date(d).toLocaleString('tr-TR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
+function fmtDate(d) { return new Date(d || new Date()).toLocaleDateString('tr-TR', { day:'2-digit', month:'2-digit', year:'numeric' }); }
+function fmtDateFull(d) { return new Date(d || new Date()).toLocaleString('tr-TR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 function svgHome() { return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`; }
 function svgBox() { return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`; }
