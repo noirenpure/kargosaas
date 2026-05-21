@@ -130,8 +130,8 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; min-height: 100vh; line-height: 1.5; transition: background-color 0.2s ease, color 0.2s ease; }
     
-    /* V6 Structural Layout Tokens */
     .dot-grid { background-image: radial-gradient(circle, var(--border2) 0.5px, transparent 0.5px); background-size: 24px 24px; }
     .blueprint-line { background-color: #E2DFD6; height: 0.5px; width: 100%; }
     .blueprint-line-v { background-color: #E2DFD6; width: 0.5px; height: 100%; }
@@ -139,7 +139,7 @@
     .scanline { animation: scanline 8s linear infinite; }
     @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(1000%); } }
 
-    /* Panel Core Spatial Grid Mapping */
+    /* Structural Panel Spatial Grid Mapping */
     .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background: var(--surface); border-right: 0.5px solid var(--border2); display: flex; flex-direction: column; z-index: 100; }
     .sidebar-logo { padding: 2rem 1.5rem; display: flex; align-items: center; gap: 12px; border-bottom: 0.5px solid var(--border); }
     .sidebar-logo .logo-text { color: var(--text) !important; }
@@ -232,7 +232,7 @@
     }
   </style>
 </head>
-<body class="bg-surface-container-low text-text-primary selection:bg-secondary-fixed selection:text-primary">
+<body class="dot-grid bg-surface-container-low text-text-primary selection:bg-secondary-fixed selection:text-primary">
 
 <div id="auth-screen" class="w-full">
   <nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container-low/80 backdrop-blur-md border-b border-border-light dark:border-outline-variant shadow-sm transition-all">
@@ -300,7 +300,7 @@
       <div class="flex items-end justify-between mb-stack-lg border-b border-border-light pb-stack-md">
         <div>
           <h2 class="font-headline-md text-headline-md text-primary mb-2">PRECISION METRICS</h2>
-          <p class="text-text-secondary">Low-latency synchronization across global distribution nodes.</p>
+          <p class="text-sm text-text-secondary">Low-latency synchronization across global distribution nodes.</p>
         </div>
         <div class="font-data-mono text-secondary text-body-md hidden md:block">001 // PERFORMANCE_LAYER</div>
       </div>
@@ -726,7 +726,7 @@ function buildNav() {
   } else if (role === 'acente') { 
     nav.innerHTML = `<div class="nav-section">ŞUBE PANELİ</div><button class="nav-item active" data-page="page-dashboard" onclick="showPage('page-dashboard')">${svgHome()} GENEL BAKIŞ</button><button class="nav-item" data-page="page-yenikargo" onclick="showPage('page-yenikargo')">${svgPlus()} YENİ KARGO</button><button class="nav-item" data-page="page-kargolar" onclick="showPage('page-kargolar')">${svgBox()} ŞUBE ARŞİVİ</button><button class="nav-item" data-page="page-raporlar" onclick="showPage('page-raporlar')">${svgChart()} CARİ RAPOR</button>`; 
   } else { 
-    nav.innerHTML = `<div class="nav-section">MÜŞTERİ PANELİ</div><button class="nav-item active" data-page="page-dashboard" onclick="showPage('page-dashboard')">${svgHome()} GENEL BAKIŞ</button><button class="nav-item" data-page="page-yenikargo" onclick="showPage('page-yenikargo')">${svgPlus()} YENİ KARGO</button><button class="nav-item" data-page="page-kargolar" onclick="showPage('page-kargolar')">${svgBox()} KARGOLARIM</button><button class="nav-item" data-page="page-raporlar" onclick="showPage('page-raporlar')">${svgChart()} RAPORLARIM</button>`; 
+    nav.innerHTML = `<div class="nav-section">MÜŞTERI PANELİ</div><button class="nav-item active" data-page="page-dashboard" onclick="showPage('page-dashboard')">${svgHome()} GENEL BAKIŞ</button><button class="nav-item" data-page="page-yenikargo" onclick="showPage('page-yenikargo')">${svgPlus()} YENİ KARGO</button><button class="nav-item" data-page="page-kargolar" onclick="showPage('page-kargolar')">${svgBox()} KARGOLARIM</button><button class="nav-item" data-page="page-raporlar" onclick="showPage('page-raporlar')">${svgChart()} RAPORLARIM</button>`; 
   }
 }
 
