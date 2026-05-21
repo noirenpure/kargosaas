@@ -271,6 +271,12 @@
     .action-btn svg { width: 13px; height: 13px; }
 
     .table-actions { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
+    .action-btn.copy-btn { color: var(--accent-mid); border-color: rgba(45,107,72,0.3); background: var(--accent-light); }
+    .action-btn.copy-btn:hover { background: var(--accent-light); border-color: var(--accent-mid); filter: brightness(0.95); }
+    html[data-theme="dark"] .action-btn.copy-btn { color: var(--accent-mid); border-color: rgba(86,196,126,0.25); background: #1C3025; }
+    html[data-theme="dark"] .action-btn.copy-btn:hover { background: #1E3528; border-color: var(--accent-mid); }
+    #kopy-banner { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    html[data-theme="dark"] #kopy-banner { background: #182C1E; border-bottom-color: rgba(96,200,128,0.15); }
 
     .welcome-banner { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-mid) 100%); border-radius: var(--radius-lg); padding: 1.5rem; color: white; margin-bottom: 1.75rem; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; }
     .welcome-banner::before { content: ''; position: absolute; right: -24px; top: -24px; width: 110px; height: 110px; border-radius: 50%; background: rgba(255,255,255,0.06); pointer-events: none; }
@@ -366,7 +372,9 @@
       
       .print-btn-desktop { display: none !important; }
       td:last-child .table-actions { width: 100%; display: flex; }
-      td:last-child .table-actions .action-btn { width: 100%; justify-content: center; padding: 8px; background: var(--surface2); font-size: 12px; font-weight: 600; }
+      td:last-child .table-actions .action-btn { flex: 1; justify-content: center; padding: 8px; background: var(--surface2); font-size: 12px; font-weight: 600; }
+      td:last-child .table-actions .action-btn.copy-btn { background: var(--accent-light); color: var(--accent-mid); border-color: rgba(45,107,72,0.25); }
+      html[data-theme="dark"] td:last-child .table-actions .action-btn.copy-btn { background: #1C3025; color: var(--accent-mid); }
       
       .modal-overlay { padding: 0; align-items: flex-end; z-index: 9999; }
       .modal { width: 100% !important; max-width: 100%; height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column; animation: slideUp 0.3s ease-out; }
@@ -450,6 +458,16 @@
     <div id="page-yenikargo" class="page">
       <div class="page-header"><h1>Yeni Kargo Oluştur</h1><p>Kargo bilgilerini doldurun</p></div>
       <div class="card" style="max-width:600px;">
+        <div id="kopy-banner" style="display:none; margin:0; padding:12px 16px; background:var(--success-light); border-bottom:1px solid rgba(96,200,128,0.25); display:none; align-items:center; gap:10px; border-radius:0;">
+          <svg style="width:16px;height:16px;stroke:var(--success);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <div style="flex:1;">
+            <span style="font-size:12px;font-weight:600;color:var(--success);">Önceki kargo kopyalandı</span>
+            <span id="kopy-info" style="font-size:12px;color:var(--text2);margin-left:6px;"></span>
+          </div>
+          <button onclick="clearKopyaBanner()" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;line-height:1;padding:2px 4px;" title="Kopyalamayı iptal et">
+            <svg style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
         <div class="card-body">
           
           <div class="detail-section" id="acente-musteri-secimi" style="display: none; background: var(--surface2); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
@@ -1004,6 +1022,58 @@ async function loadYeniKargoPage() {
     (data || []).forEach(m => { options += `<option value="${m.id}">${m.first_name} ${m.last_name}</option>`; });
     select.innerHTML = options;
   } else { secimKutusu.style.display = 'none'; }
+  // Kopyalama ile gelinmediyse formu temizle
+  if (!window._kopyaData) {
+    ['a-adsoyad','a-tel','a-il','a-adres','aciklama'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+    const ucretEl = document.getElementById('ucret'); if(ucretEl) ucretEl.value = '';
+    const odemeEl = document.getElementById('odeme-tipi'); if(odemeEl) { odemeEl.value = 'hayir'; toggleUcret('ucret', 'hayir'); }
+  }
+}
+
+async function copyKargoToNew(kargoId) {
+  const { data: k, error } = await sb.from('kargolar').select('*').eq('id', kargoId).single();
+  if (error || !k) { toast('Kargo bilgisi alınamadı', 'error'); return; }
+
+  // Kopyalanacak veriyi sakla
+  window._kopyaData = k;
+
+  // Önce sayfaya git (loadYeniKargoPage çağrılacak)
+  showPage('page-yenikargo');
+
+  // Kısa gecikme sonra formu doldur (loadYeniKargoPage async bitmesini bekle)
+  await new Promise(r => setTimeout(r, 150));
+
+  // Alıcı bilgilerini doldur
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+  set('a-adsoyad', k.a_adsoyad);
+  set('a-tel', k.a_tel);
+  set('a-il', k.a_il);
+  set('a-adres', k.a_adres);
+  set('aciklama', k.aciklama);
+
+  // Ödeme bilgilerini doldur
+  const odemeEl = document.getElementById('odeme-tipi');
+  if (odemeEl) {
+    odemeEl.value = k.odeme_tipi === 'evet' ? 'evet' : 'hayir';
+    toggleUcret('ucret', odemeEl.value);
+    if (k.odeme_tipi === 'evet') set('ucret', k.ucret || '');
+  }
+
+  // Banner'ı göster
+  const banner = document.getElementById('kopy-banner');
+  const info = document.getElementById('kopy-info');
+  if (banner) { banner.style.display = 'flex'; }
+  if (info) { info.textContent = `→ ${k.a_adsoyad} (${k.tracking_no})`; }
+
+  window._kopyaData = null;
+}
+
+function clearKopyaBanner() {
+  const banner = document.getElementById('kopy-banner');
+  if (banner) banner.style.display = 'none';
+  ['a-adsoyad','a-tel','a-il','a-adres','aciklama'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  const ucretEl = document.getElementById('ucret'); if(ucretEl) ucretEl.value = '';
+  const odemeEl = document.getElementById('odeme-tipi'); if(odemeEl) { odemeEl.value = 'hayir'; toggleUcret('ucret', 'hayir'); }
 }
 
 async function createKargo() {
@@ -1044,6 +1114,7 @@ async function createKargo() {
     
     document.getElementById('a-adsoyad').value = ''; document.getElementById('a-tel').value = ''; document.getElementById('a-il').value = ''; document.getElementById('a-adres').value = ''; document.getElementById('ucret').value = ''; document.getElementById('aciklama').value = '';
     if(currentProfile.role === 'acente') document.getElementById('kargo-gonderen-musteri').value = '';
+    const banner = document.getElementById('kopy-banner'); if(banner) banner.style.display = 'none';
     toast('Kargo oluşturuldu! (Takip No: ' + yeniTakipNo + ')', 'success'); showPage('page-kargolar');
     if(btn) { btn.disabled = false; btn.textContent = 'Kargo Oluştur'; }
   } catch (err) { if(btn) { btn.disabled = false; btn.textContent = 'Kargo Oluştur'; } }
@@ -1222,6 +1293,10 @@ function kargoTable(data, isAdmin) {
             <td data-label="İşlem">
               <div class="table-actions">
                 <button class="action-btn print-btn-desktop" onclick="printKargoFisi('${k.id}')" title="Fiş Yazdır">Yazdır</button>
+                ${!isAdmin ? `<button class="action-btn copy-btn" onclick="copyKargoToNew('${k.id}')" title="Bu kargonun bilgileriyle yeni kargo oluştur">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Kopyala
+                </button>` : ''}
                 <button class="action-btn" onclick="showKargoDetail('${k.id}')">Detay</button>
               </div>
             </td>
