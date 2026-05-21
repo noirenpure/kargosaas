@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
   <title>ADA KARGO — Lojistik Otomasyon Sistemi</title>
   
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -95,12 +95,14 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; min-height: 100vh; line-height: 1.5; transition: background-color 0.2s ease, color 0.2s ease; }
+    
     .dot-grid { background-image: radial-gradient(circle, var(--border2) 0.5px, transparent 0.5px); background-size: 24px 24px; }
     .kinetic-matrix { background: linear-gradient(90deg, rgba(3,36,22,0.05) 1px, transparent 1px) 0 0 / 40px 40px, linear-gradient(rgba(3,36,22,0.05) 1px, transparent 1px) 0 0 / 40px 40px; }
     .scanline { animation: scanline 8s linear infinite; }
     @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(1000%); } }
 
-    /* Structural Panel Core Grid Rules */
+    /* Secured Panel Workspace Grid Implementations */
     .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background: var(--surface); border-right: 0.5px solid var(--border2); display: flex; flex-direction: column; z-index: 100; }
     .sidebar-logo { padding: 2rem 1.5rem; display: flex; align-items: center; gap: 12px; border-bottom: 0.5px solid var(--border); }
     .logo-icon { width: 36px; height: 36px; background: var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; }
@@ -111,54 +113,38 @@
     .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius); cursor: pointer; color: var(--text2); font-size: 13px; font-weight: 500; transition: all 0.2s; border: none; background: none; width: 100%; text-align: left; margin-bottom: 4px; }
     .nav-item:hover { background: var(--surface2); color: var(--text); }
     .nav-item.active { background: var(--accent); color: white !important; }
+    
     .main { margin-left: 260px; padding: 3rem; min-height: 100vh; position: relative; }
     .page-header { margin-bottom: 2.5rem; border-left: 3px solid var(--accent); padding-left: 1.5rem; }
     .page-header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase; }
     .page-header p { color: var(--text2); font-family: 'DM Mono', monospace; font-size: 12px; margin-top: 4px; text-transform: uppercase; opacity: 0.7; }
     .page { display: none; } .page.active { display: block; }
 
-    /* Precision Dashboard Grid Entities */
+    /* Precision Dashboard Structural Token Components */
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 2.5rem; }
     .stat-card { background: var(--surface); border: 0.5px solid var(--border2); border-radius: var(--radius-lg); padding: 1.5rem; position: relative; overflow: hidden; transition: transform 0.2s; }
     .stat-card:hover { transform: translateY(-2px); border-color: var(--accent); }
     .stat-card-icon { position: absolute; right: 1.5rem; top: 1.5rem; color: var(--accent); opacity: 0.2; }
     .stat-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-    .stat-value { font-family: 'DM Sans', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
+    .stat-value { font-family: 'DM Sans', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
     .stat-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); margin-top: 10px; display: flex; align-items: center; gap: 6px; }
     .stat-progress { height: 2px; background: var(--border); width: 100%; margin-top: 12px; border-radius: 1px; overflow: hidden; }
     .stat-progress-bar { height: 100%; background: var(--accent); width: 100%; }
+    
     .card { background: var(--surface); border: 0.5px solid var(--border2); border-radius: var(--radius-lg); overflow: hidden; }
     .card-header { padding: 1.25rem 1.5rem; border-bottom: 0.5px solid var(--border2); display: flex; align-items: center; justify-content: space-between; background: var(--surface); }
     .card-header h3 { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text); }
+    
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th { text-align: left; padding: 12px 16px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; border-bottom: 0.5px solid var(--border2); background: var(--surface2); }
     td { padding: 14px 16px; border-bottom: 0.5px solid var(--border); vertical-align: middle; color: var(--text); }
     tbody tr:hover td { background: var(--surface2); }
+    
     .tracking-no { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text); font-weight: 600; background: var(--surface2); padding: 2px 6px; border-radius: 3px; border: 0.5px solid var(--border2); }
-    .welcome-banner { background: var(--accent); border-radius: var(--radius-lg); padding: 2rem; color: white; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; }
-    .welcome-banner h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; color: #ffffff; }
-    .welcome-banner p { font-family: 'DM Mono', monospace; font-size: 11px; opacity: 0.6; text-transform: uppercase; color: #ffffff; }
-    .form-group { margin-bottom: 1.25rem; }
-    .form-group label { display: block; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600; color: var(--text2); text-transform: uppercase; margin-bottom: 6px; }
-    input, select, textarea { width: 100%; padding: 10px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 13px; background: var(--surface); color: var(--text); outline: none; }
-    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
-    .btn { padding: 10px 20px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 600; text-transform: uppercase; border-radius: var(--radius); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; border: none; }
-    .btn-primary { background: var(--accent); color: white; }
-    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn-outline { background: transparent; border: 0.5px solid var(--border2); color: var(--text); }
-    .btn-outline:hover { background: var(--surface2); }
     .badge { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 2px; text-transform: uppercase; display: inline-block; }
     .badge-beklemede { background: var(--warn-light); color: var(--warn); border: 0.5px solid var(--warn); }
     .badge-teslim { background: var(--success-light); color: var(--success); border: 0.5px solid var(--success); }
     .badge-iptal { background: var(--danger-light); color: var(--danger); border: 0.5px solid var(--danger); }
-    .timeline { position: relative; padding-left: 20px; margin-top: 15px; }
-    .timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: var(--border2); }
-    .timeline-item { position: relative; margin-bottom: 14px; }
-    .timeline-dot { position: absolute; left: -18px; top: 4px; width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--accent-mid); background: var(--surface); }
-    .timeline-dot.filled { background: var(--accent-mid); }
-    .timeline-time { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); }
-    .timeline-status { font-size: 13px; font-weight: 600; color: var(--text); }
-    .timeline-note { font-size: 12px; color: var(--text2); background: var(--surface2); padding: 4px 8px; border-radius: var(--radius); margin-top: 2px; display: inline-block; }
 
     @media (max-width: 768px) {
       .sidebar { width: 0; display: none; }
@@ -184,13 +170,13 @@
 <div id="auth-screen" class="w-full">
   <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-border-light shadow-sm transition-all">
     <div class="flex justify-between items-center px-6 md:px-8 py-3 max-w-7xl mx-auto">
-      <div class="font-headline-md text-xl font-extrabold text-primary tracking-tight">ADA KARGO</div>
+      <div class="text-xl font-extrabold text-primary tracking-tight">ADA KARGO</div>
       <div class="hidden md:flex gap-6 items-center">
         <a class="text-sm text-secondary font-bold border-b-2 border-secondary py-1" href="#">Services</a>
         <a class="text-sm text-text-secondary hover:text-primary transition-colors" href="#">Features</a>
         <a class="text-sm text-text-secondary hover:text-primary transition-colors" href="#">Pricing</a>
       </div>
-      <button onclick="triggerGate()" class="bg-primary text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-secondary transition-all active:scale-95">
+      <button onclick="launchPortal()" class="bg-primary text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-secondary transition-all active:scale-95">
         Login
       </button>
     </div>
@@ -201,7 +187,7 @@
       <div class="col-span-12 lg:col-span-8 flex flex-col justify-center">
         <div class="inline-flex items-center gap-2 mb-4">
           <span class="w-8 h-[1px] bg-secondary"></span>
-          <span class="font-data-mono text-xs font-mono text-secondary uppercase tracking-widest">System Status: Operational</span>
+          <span class="font-mono text-xs text-secondary uppercase tracking-widest">System Status: Operational</span>
         </div>
         <h1 class="text-3xl md:text-5xl font-extrabold text-primary leading-none tracking-tight mb-6">
           ARCHITECTING THE FUTURE <br/> OF FLOW.
@@ -210,7 +196,7 @@
           Redefining the global logistics backbone through kinetic precision and automated intelligence. ADA KARGO represents the pinnacle of synchronous supply chain engineering.
         </p>
         <div class="flex flex-wrap gap-4">
-          <button onclick="triggerGate()" class="bg-primary text-white px-8 py-4 rounded-lg font-bold hover:shadow-xl transition-all active:scale-95 flex items-center gap-3">
+          <button onclick="launchPortal()" class="bg-primary text-white px-8 py-4 rounded-lg font-bold hover:shadow-xl transition-all active:scale-95 flex items-center gap-3">
             <span>Initialize System</span>
             <span class="material-symbols-outlined text-[20px]">terminal</span>
           </button>
@@ -251,7 +237,7 @@
         <div class="font-mono text-secondary text-sm hidden md:block">001 // PERFORMANCE_LAYER</div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="p-6 border-l-4 border-secondary bg-surface-container-low rounded-r-xl bg-slate-50">
+        <div class="p-6 border-l-4 border-secondary bg-slate-50 rounded-r-xl">
           <div class="flex justify-between items-start mb-4">
             <span class="material-symbols-outlined text-secondary">speed</span>
             <span class="font-mono text-[10px] text-text-muted">REALTIME_FEED</span>
@@ -262,7 +248,7 @@
             <div class="h-full bg-secondary w-3/4 animate-pulse"></div>
           </div>
         </div>
-        <div class="p-6 border-l-4 border-secondary bg-surface-container-low rounded-r-xl bg-slate-50">
+        <div class="p-6 border-l-4 border-secondary bg-slate-50 rounded-r-xl">
           <div class="flex justify-between items-start mb-4">
             <span class="material-symbols-outlined text-secondary">rocket</span>
             <span class="font-mono text-[10px] text-text-muted">OPS_SEC</span>
@@ -273,7 +259,7 @@
             <div class="h-full bg-secondary w-[85%]"></div>
           </div>
         </div>
-        <div class="p-6 border-l-4 border-secondary bg-surface-container-low rounded-r-xl bg-slate-50">
+        <div class="p-6 border-l-4 border-secondary bg-slate-50 rounded-r-xl">
           <div class="flex justify-between items-start mb-4">
             <span class="material-symbols-outlined text-secondary">verified</span>
             <span class="font-mono text-[10px] text-text-muted">SYS_STABILITY</span>
@@ -339,20 +325,16 @@
   </footer>
 
   <div id="login-modal" class="fixed inset-0 z-[11000] bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white rounded-xl p-8 max-w-md w-full shadow-2xl border border-border-light relative">
-      <button onclick="dismissGate()" class="absolute top-4 right-4 text-text-secondary hover:text-primary">
-        <span class="material-symbols-outlined">close</span>
-      </button>
+    <div class="bg-white rounded-xl p-8 max-w-md w-full shadow-2xl border border-border-light relative text-text">
+      <button onclick="dismissPortal()" class="absolute top-4 right-4 text-text-secondary hover:text-primary"><span class="material-symbols-outlined">close</span></button>
       <div class="flex items-center gap-3 mb-6">
-        <div class="w-10 h-10 bg-emerald-950 rounded-lg flex items-center justify-center text-white font-bold">
-          <span class="material-symbols-outlined">hub</span>
-        </div>
+        <div class="w-10 h-10 bg-emerald-950 rounded-lg flex items-center justify-center text-white font-bold"><span class="material-symbols-outlined">hub</span></div>
         <div>
           <h3 class="text-lg font-bold text-primary leading-tight">ADA KARGO</h3>
           <p class="text-[10px] font-mono text-text-secondary uppercase">Secure Gateway Protocol</p>
         </div>
       </div>
-      <div id="local-auth-error" class="bg-red-50 border border-red-200 text-danger text-xs p-3 rounded mb-4 hidden"></div>
+      <div id="auth-error" class="bg-red-50 border border-red-200 text-danger text-xs p-3 rounded mb-4" style="display:none;"></div>
       <div class="space-y-4">
         <div class="form-group mb-0">
           <label>SİSTEM ERİŞİM KİMLİĞİ (E-POSTA)</label>
@@ -542,25 +524,9 @@ let editingKargoId = null;
 let allProfiles = [];
 let editingUserId = null;
 
-let mainKargolarAll = [];
-let mainSearchQ = '';
-let mainStatusQ = '';
-let mainMonthQ = '';
-
-// Un-authenticated gate interaction triggers
-function triggerGate() { document.getElementById('login-modal').style.display = 'flex'; }
-function dismissGate() { document.getElementById('login-modal').style.display = 'none'; }
-
-function toggleTheme() {
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  const next = isDark ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('ada-theme', next);
-}
-(function applyStoredTheme() {
-  const saved = localStorage.getItem('ada-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
-})();
+// Routing Control Mechanisms for Public View Layer
+function launchPortal() { document.getElementById('login-modal').style.display = 'flex'; }
+function dismissPortal() { document.getElementById('login-modal').style.display = 'none'; }
 
 checkAuth();
 
@@ -584,26 +550,23 @@ async function login() {
   const email = document.getElementById('login-email').value;
   const pass = document.getElementById('login-pass').value;
   const btn = document.getElementById('login-btn'); 
-  const localErr = document.getElementById('local-auth-error');
+  const errContainer = document.getElementById('auth-error');
   
-  if(localErr) localErr.style.display = 'none';
+  if(errContainer) errContainer.style.display = 'none';
   btn.disabled = true; btn.textContent = 'ERİŞİM KONTROLÜ...'; 
   
   const { error } = await sb.auth.signInWithPassword({ email, password: pass }); 
   btn.disabled = false; btn.textContent = 'SİSTEME GİRİŞ YAP'; 
   if (error) {
-    if(localErr) {
-      localErr.textContent = error.message;
-      localErr.style.display = 'block';
-    } else {
-      showAuthError(error.message);
+    if(errContainer) {
+      errContainer.textContent = error.message;
+      errContainer.style.display = 'block';
     }
   } else {
-    dismissGate();
+    dismissPortal();
   }
 }
 
-function showAuthError(msg) { const el = document.getElementById('auth-error'); if(el) { el.textContent = msg; el.style.display = 'block'; } }
 async function logout() { try { await sb.auth.signOut(); } catch (error) {} localStorage.clear(); location.reload(); }
 function showAuth() { document.getElementById('auth-screen').style.display = 'block'; document.getElementById('app').style.display = 'none'; }
 
@@ -627,8 +590,8 @@ function buildNav() {
 function showPage(pageId) {
   document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); 
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === pageId)); 
-  const targetPage = document.getElementById(pageId);
-  if(targetPage) targetPage.style.display = 'block';
+  const target = document.getElementById(pageId);
+  if(target) target.style.display = 'block';
   if (pageId === 'page-dashboard') loadDashboard();
   if (pageId === 'page-yenikargo') loadYeniKargoPage();
   if (pageId === 'page-kargolar') loadMainKargolar();
@@ -864,7 +827,7 @@ async function createKargo() {
     gondericiIsim = select.options[select.selectedIndex].text;
   }
   
-  const btn = document.querySelector('#page-yenikargo .btn-primary');
+  const btn = document.querySelector('#page-yenikargo button.btn-primary');
   if(btn) { btn.disabled = true; btn.textContent = 'PROTOKOL İŞLENİYOR...'; }
   
   let yeniTakipNo = await getNextTrackingNo();
@@ -1032,13 +995,6 @@ async function saveEdit() {
   showPage(activePageId);
 }
 
-async function deleteKargo(id) {
-  const onay = confirm('BU SEVKİYAT VERİSİNİ SİSTEMDEN KALICI OLARAK SİLMEK İSTEDİĞİNİZE EMİN MİSİNİZ?'); if (!onay) return;
-  await sb.from('kargolar').delete().eq('id', id); toast('VERİ KALDIRILDI', 'success'); closeModal('kargo-modal');
-  const activePageId = document.querySelector('.page[style*="block"]')?.id || 'page-dashboard';
-  showPage(activePageId);
-}
-
 function kargoTable(data, isAdmin) {
   return `<table><thead><tr><th>TAKİP NO</th>${isAdmin?'<th>GÖNDERİCİ</th>':''}<th>ALICI</th><th>DURUM</th><th>ÜCRET</th><th style="text-align:right;">PROTOKOL</th></tr></thead><tbody>
     ${data.map(k=>`<tr><td data-label="Takip No"><span class="tracking-no">${k.tracking_no}</span></td>${isAdmin?`<td data-label="Gönderici" style="font-weight:600;">${k.g_adsoyad}</td>`:''}<td data-label="Alıcı">${k.a_adsoyad}<br><span style="font-size:11px; opacity:0.6;">${k.a_il.toUpperCase()}</span></td><td data-label="Durum">${badgeHtml(k.durum)}</td><td data-label="Ücret" style="font-family:'DM Mono'; font-weight:600;">${k.odeme_tipi==='evet'?'₺'+parseFloat(k.ucret).toFixed(2):'—'}</td><td data-label="İşlem" style="text-align:right;"><div style="display:inline-flex; gap:6px;"><button class="btn btn-outline" style="padding:4px 8px; font-size:11px;" onclick="showKargoDetail('${k.id}')">DETAY</button>${!isAdmin?`<button class="btn btn-outline" style="padding:4px 8px; font-size:11px; background:var(--accent-light); color:var(--accent-mid); border-color:rgba(44,106,71,0.2);" onclick="copyKargoToNew('${k.id}')">KOPYALA</button>`:''}</div></td></tr>`).join('')}
@@ -1072,16 +1028,24 @@ async function printKargoFisi(id) {
 
 function emptyState(msg) { return `<div style="padding:4rem 2rem; text-align:center; color:var(--text3); font-family:'DM Mono'; font-size:12px; font-weight:500;"><span class="material-symbols-outlined" style="font-size:32px; opacity:0.4; display:block; margin-bottom:8px;">layers_clear</span>${msg}</div>`; }
 
-// Micro-interactions layer for metrics
-const latencyEl = document.getElementById('latency-val');
-if (latencyEl) {
+// Realtime dynamic latency shift simulations
+const latencyField = document.getElementById('latency-val');
+if (latencyField) {
   setInterval(() => {
-    const randomShift = Math.floor(Math.random() * 4) - 2;
-    let current = parseInt(latencyEl.innerText);
-    let newVal = Math.max(8, Math.min(16, current + randomShift));
-    latencyEl.innerText = newVal;
+    const shift = Math.floor(Math.random() * 4) - 2;
+    let curr = parseInt(latencyField.innerText);
+    latencyField.innerText = Math.max(8, Math.min(16, curr + shift));
   }, 3000);
 }
+
+// Global window event scroll adjustments
+window.addEventListener('scroll', () => {
+  const targetNav = document.querySelector('#auth-screen nav');
+  if(targetNav) {
+    if (window.scrollY > 50) { targetNav.classList.add('bg-white/95'); } 
+    else { targetNav.classList.remove('bg-white/95'); }
+  }
+});
 
 document.addEventListener("visibilitychange", async () => {
   if (document.visibilityState === "visible" && currentUser) {
