@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>ADA KARGO — Lojistik Otomasyon Sistemi</title>
+  <title>KARGOSOFT — Kargo Yönetim Sistemi</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=DM+Mono:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #F5F4F0; --surface: #FFFFFF; --surface2: #F0EEE8; --border: #E2DFD6; --border2: #C8C4BA; 
@@ -387,18 +388,355 @@
 
     @media (max-width: 768px) { input, select, textarea { font-size: 16px !important; } }
     .search-bar svg { pointer-events: none !important; }
+
+    /* ─── LANDING PAGE ─────────────────────────────────────────── */
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    #landing { display: block; }
+    #landing * { box-sizing: border-box; }
+    .lp-dot-grid { background-image: radial-gradient(circle, #C8C4BA 1px, transparent 1px); background-size: 24px 24px; }
+    .lp-kinetic { background: linear-gradient(90deg, rgba(3,36,22,0.05) 1px, transparent 1px) 0 0 / 40px 40px, linear-gradient(rgba(3,36,22,0.05) 1px, transparent 1px) 0 0 / 40px 40px; }
+    .lp-blueprint-v { background-color: #E2DFD6; width: 0.5px; position: absolute; left: 0; top: 0; bottom: 0; opacity: 0.3; }
+    @keyframes lp-scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(1000%); } }
+    .lp-scan { animation: lp-scanline 8s linear infinite; }
+    @keyframes lp-spin { to { transform: rotate(360deg); } }
+    .lp-spin { animation: lp-spin 20s linear infinite; }
+    @keyframes lp-ping { 0% { transform: scale(1); opacity: 1; } 75%, 100% { transform: scale(2); opacity: 0; } }
+    .lp-ping { animation: lp-ping 1.5s cubic-bezier(0,0,0.2,1) infinite; }
+    @keyframes lp-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .lp-pulse-anim { animation: lp-pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+    #landing nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #E2DFD6; box-shadow: 0 1px 4px rgba(0,0,0,0.05); transition: all 0.2s; }
+    #landing nav .nav-inner { max-width: 1200px; margin: 0 auto; padding: 12px 32px; display: flex; justify-content: space-between; align-items: center; }
+    #landing .lp-logo { font-size: 18px; font-weight: 700; color: #032416; letter-spacing: -0.3px; font-family: 'DM Sans', sans-serif; }
+    #landing .lp-login-btn { background: #032416; color: #fff; padding: 8px 22px; border-radius: 8px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.15s, transform 0.1s; }
+    #landing .lp-login-btn:hover { background: #2c6a47; }
+    #landing .lp-login-btn:active { transform: scale(0.96); }
+    #landing section, #landing header { font-family: 'DM Sans', sans-serif; }
+    #landing header { padding: 128px 32px 96px; position: relative; overflow: hidden; }
+    #landing .hero-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 420px; gap: 32px; align-items: center; position: relative; z-index: 2; }
+    #landing .hero-badge { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+    #landing .hero-badge span.line { display: inline-block; width: 28px; height: 1px; background: #2c6a47; }
+    #landing .hero-badge span.txt { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #2c6a47; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+    #landing h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; color: #032416; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 24px; }
+    #landing .hero-desc { font-size: 16px; color: #6B6860; line-height: 1.65; max-width: 520px; margin-bottom: 28px; }
+    #landing .lp-cta { display: inline-flex; align-items: center; gap: 10px; background: #032416; color: #fff; padding: 14px 28px; border-radius: 10px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: box-shadow 0.15s, transform 0.1s, background 0.15s; }
+    #landing .lp-cta:hover { background: #2c6a47; box-shadow: 0 8px 24px rgba(3,36,22,0.18); }
+    #landing .lp-cta:active { transform: scale(0.97); }
+    /* Flow visual */
+    #landing .flow-box { border: 1px solid #E2DFD6; border-radius: 18px; background: rgba(255,255,255,0.55); backdrop-filter: blur(8px); overflow: hidden; position: relative; padding: 28px; }
+    #landing .flow-step { background: var(--surface2,#F0EEE8); border: 1px solid #E2DFD6; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+    #landing .flow-step.dark { background: #032416; border-color: #032416; }
+    #landing .flow-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #9C9A94; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+    #landing .flow-label.light { color: #94d5aa; }
+    #landing .flow-title { font-size: 13px; font-weight: 600; color: #032416; }
+    #landing .flow-title.light { color: #fff; }
+    #landing .flow-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #E8F2EC; }
+    #landing .flow-icon.dark { background: rgba(176,241,197,0.12); }
+    #landing .flow-arrow { display: flex; justify-content: center; color: #2c6a47; opacity: 0.5; margin: 4px 0; }
+    /* Metrics */
+    #landing .metrics-section { background: #fff; padding: 80px 32px; }
+    #landing .metrics-inner { max-width: 1200px; margin: 0 auto; }
+    #landing .section-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #E2DFD6; padding-bottom: 16px; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+    #landing .section-title { font-size: 20px; font-weight: 700; color: #032416; margin-bottom: 4px; letter-spacing: -0.3px; }
+    #landing .section-sub { font-size: 13px; color: #6B6860; }
+    #landing .section-mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #2c6a47; }
+    #landing .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    #landing .metric-card { padding: 24px; border-left: 4px solid #2c6a47; background: #f5f4f0; border-radius: 0 12px 12px 0; transition: background 0.15s; }
+    #landing .metric-card:hover { background: #efeeea; }
+    #landing .metric-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    #landing .metric-icon { font-size: 22px; color: #2c6a47; }
+    #landing .metric-mono { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9C9A94; }
+    #landing .metric-val { font-size: 36px; font-weight: 700; color: #032416; line-height: 1; margin-bottom: 4px; }
+    #landing .metric-label { font-size: 10px; font-weight: 600; color: #6B6860; text-transform: uppercase; letter-spacing: 0.07em; }
+    #landing .metric-bar { margin-top: 14px; height: 3px; background: #E2DFD6; border-radius: 99px; overflow: hidden; }
+    #landing .metric-fill { height: 100%; background: #2c6a47; border-radius: 99px; }
+    /* Bento */
+    #landing .bento-section { padding: 80px 32px; }
+    #landing .bento-inner { max-width: 1200px; margin: 0 auto; }
+    #landing .bento-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 20px; }
+    #landing .bento-card { background: #fff; border: 1px solid #E2DFD6; border-radius: 18px; padding: 28px; position: relative; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    #landing .bento-card-top-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #032416; }
+    #landing .bento-card.dark { background: #032416; }
+    #landing .bento-small-grid { display: grid; grid-template-rows: 1fr 1fr; gap: 20px; }
+    #landing .bento-card h3 { font-size: 17px; font-weight: 700; color: #032416; margin-bottom: 8px; letter-spacing: -0.2px; }
+    #landing .bento-card.dark h3 { color: #fff; }
+    #landing .bento-card p { font-size: 13px; color: #6B6860; line-height: 1.6; }
+    #landing .bento-card.dark p { color: #82a48f; }
+    #landing .panel-mock { border: 1px solid #E2DFD6; border-radius: 12px; background: #f5f4f0; overflow: hidden; margin-top: 20px; }
+    #landing .panel-mock-header { background: #032416; padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; }
+    #landing .panel-mock-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; border-bottom: 1px solid #E2DFD6; background: #fff; font-size: 12px; }
+    #landing .panel-mock-row:last-child { border-bottom: none; }
+    #landing .panel-status { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 99px; font-size: 10px; font-weight: 600; }
+    #landing .status-beklemede { background: #FEF3E6; color: #B7600E; }
+    #landing .status-teslim { background: #032416; color: #fff; }
+    #landing .status-bekl2 { background: #E8F2EC; color: #2c6a47; }
+    /* Dark section */
+    #landing .dark-section { background: #032416; color: #fff; padding: 96px 32px; position: relative; overflow: hidden; }
+    #landing .dark-section-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+    #landing .dark-mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #94d5aa; letter-spacing: 0.2em; margin-bottom: 12px; }
+    #landing .dark-title { font-size: clamp(28px, 4vw, 46px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 48px; }
+    #landing .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 860px; margin: 0 auto 56px; }
+    #landing .step { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    #landing .step-icon { width: 60px; height: 60px; border: 1px solid rgba(176,241,197,0.25); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+    #landing .step-num { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #94d5aa; text-transform: uppercase; letter-spacing: 0.15em; }
+    #landing .step-title { font-size: 16px; font-weight: 600; color: #fff; }
+    #landing .step-desc { font-size: 13px; color: #82a48f; line-height: 1.6; text-align: center; }
+    #landing .dark-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
+    #landing .dark-stat-val { font-size: clamp(28px, 4vw, 38px); font-weight: 300; color: #fff; }
+    #landing .dark-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #94d5aa; text-transform: uppercase; letter-spacing: 0.15em; margin-top: 4px; }
+    /* CTA */
+    #landing .cta-section { padding: 80px 32px; background: #f5f4f0; border-top: 1px solid #C8C4BA; }
+    #landing .cta-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    #landing .cta-title { font-size: clamp(28px, 4vw, 46px); font-weight: 800; color: #032416; letter-spacing: -0.02em; margin-bottom: 16px; }
+    #landing .cta-desc { font-size: 16px; color: #6B6860; max-width: 480px; margin-bottom: 28px; line-height: 1.65; }
+    #landing .cta-meta { margin-top: 20px; display: flex; gap: 16px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9C9A94; }
+    #landing .cta-sep { width: 1px; height: 12px; background: #C8C4BA; }
+    /* Footer */
+    #landing footer { background: #e3e2df; border-top: 1px solid #C8C4BA; padding: 24px 32px; }
+    #landing .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    #landing .footer-logo { font-size: 16px; font-weight: 700; color: #032416; }
+    #landing .footer-copy { font-size: 13px; color: #6B6860; margin-top: 2px; }
+    #landing .footer-links { display: flex; gap: 20px; }
+    #landing .footer-links a { font-size: 13px; color: #6B6860; text-decoration: underline; transition: color 0.12s; }
+    #landing .footer-links a:hover { color: #032416; }
+    @media (max-width: 768px) {
+      #landing header { padding: 96px 20px 64px; }
+      #landing .hero-grid { grid-template-columns: 1fr; }
+      #landing .flow-box { display: none; }
+      #landing .metrics-grid { grid-template-columns: 1fr; }
+      #landing .bento-grid { grid-template-columns: 1fr; }
+      #landing .steps-grid { grid-template-columns: 1fr; }
+      #landing .dark-stats { grid-template-columns: repeat(2, 1fr); }
+      #landing nav .nav-inner { padding: 12px 20px; }
+      #landing .metrics-section, #landing .bento-section, #landing .dark-section, #landing .cta-section { padding: 60px 20px; }
+      #landing footer { padding: 20px; }
+      #landing .footer-inner { flex-direction: column; align-items: flex-start; }
+      #landing .section-mono { display: none; }
+    }
   </style>
 </head>
 <body>
 
-<div id="auth-screen">
+<div id="landing">
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <div class="lp-logo">KARGOSOFT</div>
+      <button class="lp-login-btn" onclick="scrollToLogin()">Giriş Yap</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="lp-dot-grid">
+    <div class="lp-blueprint-v"></div>
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">
+          <span class="line"></span>
+          <span class="txt">ACENTELERİN TERCİHİ</span>
+        </div>
+        <h1>KARGO YÖNETİMİ<br>BU KADAR KOLAY.</h1>
+        <p class="hero-desc">Acentenizi sisteme ekleyin, müşterileriniz kargolarını kendileri girsin. Teslim takibi, cari yönetimi ve tüm operasyon tek panelde — fazlası yok, eksiği yok.</p>
+        <button class="lp-cta" onclick="scrollToLogin()">
+          Hemen Başlayın
+          <span class="material-symbols-outlined" style="font-size:20px;">arrow_forward</span>
+        </button>
+      </div>
+      <!-- Flow Visual -->
+      <div class="flow-box">
+        <div class="lp-kinetic" style="position:absolute;inset:0;opacity:0.15;pointer-events:none;"></div>
+        <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:10px;">
+          <div class="flow-step">
+            <div class="flow-icon"><span class="material-symbols-outlined" style="color:#2c6a47;font-size:20px;">person</span></div>
+            <div>
+              <div class="flow-label">Müşteri</div>
+              <div class="flow-title">Kargo Girişi Yapar</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><span class="material-symbols-outlined" style="font-size:20px;">arrow_downward</span></div>
+          <div class="flow-step dark">
+            <div class="flow-icon dark"><span class="material-symbols-outlined" style="color:#b0f1c5;font-size:20px;">hub</span></div>
+            <div>
+              <div class="flow-label light">KARGOSOFT</div>
+              <div class="flow-title light">Otomatik Yönlendirir</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><span class="material-symbols-outlined" style="font-size:20px;">arrow_downward</span></div>
+          <div class="flow-step">
+            <div class="flow-icon"><span class="material-symbols-outlined" style="color:#2c6a47;font-size:20px;">store</span></div>
+            <div>
+              <div class="flow-label">Acente</div>
+              <div class="flow-title">Teslim Eder & Takip Eder</div>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute;top:12px;left:12px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#9C9A94;">SYS_ID: KS_01</div>
+        <div style="position:absolute;bottom:12px;right:12px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#9C9A94;">STATUS: ONLINE</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- METRICS -->
+  <div class="metrics-section">
+    <div class="metrics-inner">
+      <div class="section-header">
+        <div>
+          <div class="section-title">NEDEN KARGOSOFT?</div>
+          <div class="section-sub">Acenteler için tasarlanmış, müşteriler için basitleştirilmiş.</div>
+        </div>
+        <div class="section-mono">001 // PLATFORM_STATS</div>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-top">
+            <span class="material-symbols-outlined metric-icon">inventory_2</span>
+            <span class="metric-mono">KARGO_TAKIP</span>
+          </div>
+          <div class="metric-val">Anlık</div>
+          <div class="metric-label">GÖNDERİ DURUMU</div>
+          <div class="metric-bar"><div class="metric-fill lp-pulse-anim" style="width:100%;"></div></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top">
+            <span class="material-symbols-outlined metric-icon">groups</span>
+            <span class="metric-mono">ACENTE_YAPISI</span>
+          </div>
+          <div class="metric-val">Sınırsız</div>
+          <div class="metric-label">MÜŞTERİ HESABI</div>
+          <div class="metric-bar"><div class="metric-fill" style="width:85%;"></div></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top">
+            <span class="material-symbols-outlined metric-icon">verified</span>
+            <span class="metric-mono">SYS_STABILITY</span>
+          </div>
+          <div class="metric-val">99.9%</div>
+          <div class="metric-label">SİSTEM UPTIME</div>
+          <div class="metric-bar"><div class="metric-fill" style="width:100%;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENTO -->
+  <section class="bento-section lp-dot-grid">
+    <div class="bento-inner">
+      <div class="bento-grid">
+        <!-- Büyük kart -->
+        <div class="bento-card">
+          <div class="bento-card-top-bar"></div>
+          <div style="max-width:400px;margin-bottom:20px;">
+            <h3>Acente Paneli</h3>
+            <p>Acentenize bağlı tüm müşterilerin kargolarını tek ekranda görün. Teslim edildi olarak işaretleyin, bekleyen gönderi sayısını anlık takip edin.</p>
+          </div>
+          <div class="panel-mock">
+            <div class="panel-mock-header">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#94d5aa;">ACENTE PANELİ // KARGOSOFT</span>
+              <div style="display:flex;gap:4px;"><div style="width:7px;height:7px;border-radius:50%;background:rgba(176,241,197,0.6);"></div><div style="width:7px;height:7px;border-radius:50%;background:rgba(176,241,197,0.3);"></div><div style="width:7px;height:7px;border-radius:50%;background:rgba(176,241,197,0.15);"></div></div>
+            </div>
+            <div class="panel-mock-row"><div style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:15px;color:#2c6a47;">inventory_2</span><span style="font-family:'DM Mono',monospace;font-size:11px;color:#2c6a47;">#KS-00142</span><span style="color:#6B6860;font-size:12px;">Ahmet Yılmaz</span></div><span class="panel-status status-beklemede">Teslimde</span></div>
+            <div class="panel-mock-row"><div style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:15px;color:#2c6a47;">inventory_2</span><span style="font-family:'DM Mono',monospace;font-size:11px;color:#2c6a47;">#KS-00141</span><span style="color:#6B6860;font-size:12px;">Fatma Demir</span></div><span class="panel-status status-teslim">✓ Teslim Edildi</span></div>
+            <div class="panel-mock-row"><div style="display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" style="font-size:15px;color:#2c6a47;">inventory_2</span><span style="font-family:'DM Mono',monospace;font-size:11px;color:#2c6a47;">#KS-00140</span><span style="color:#6B6860;font-size:12px;">Mehmet Çelik</span></div><span class="panel-status status-bekl2">Beklemede</span></div>
+          </div>
+        </div>
+        <!-- Küçük kartlar -->
+        <div class="bento-small-grid">
+          <div class="bento-card dark" style="position:relative;">
+            <span class="material-symbols-outlined" style="position:absolute;bottom:-12px;right:-12px;font-size:100px;color:rgba(255,255,255,0.07);">edit_note</span>
+            <div style="position:relative;z-index:1;">
+              <h3>Müşteri Kendi Girer</h3>
+              <p>Müşterileriniz kargo bilgilerini sisteme kendileri girer. Kargo otomatik olarak sizin panelinize düşer — telefon trafiği, manuel veri girişi yok.</p>
+            </div>
+          </div>
+          <div class="bento-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <h3>Cari Takip</h3>
+              <p>Her acentenin müşteri bazında alacak ve verecek kaydını tutun. Ödemeler, bakiyeler ve geçmiş işlemler tek ekranda.</p>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:16px;">
+              <div style="width:32px;height:32px;border:1px solid #E2DFD6;border-radius:7px;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="font-size:16px;color:#6B6860;">account_balance_wallet</span></div>
+              <div style="width:32px;height:32px;border:1px solid #E2DFD6;border-radius:7px;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="font-size:16px;color:#6B6860;">receipt_long</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DARK / HOW IT WORKS -->
+  <section class="dark-section">
+    <div class="lp-kinetic" style="position:absolute;inset:0;opacity:0.04;pointer-events:none;"></div>
+    <div class="dark-section-inner">
+      <div class="dark-mono">SISTEM_AKISI</div>
+      <div class="dark-title">NASIL ÇALIŞIR?</div>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-icon"><span class="material-symbols-outlined" style="color:#b0f1c5;font-size:28px;">store</span></div>
+          <div class="step-num">Adım 01</div>
+          <div class="step-title">Acente Kaydolur</div>
+          <div class="step-desc">Acentenizi sisteme ekleyin, müşteri hesaplarını oluşturun. Dakikalar içinde hazır.</div>
+        </div>
+        <div class="step">
+          <div class="step-icon"><span class="material-symbols-outlined" style="color:#b0f1c5;font-size:28px;">person_add</span></div>
+          <div class="step-num">Adım 02</div>
+          <div class="step-title">Müşteri Kargo Girer</div>
+          <div class="step-desc">Müşteriler kendi hesaplarından kargo bilgilerini girer. Kargo anında acentenin paneline düşer.</div>
+        </div>
+        <div class="step">
+          <div class="step-icon"><span class="material-symbols-outlined" style="color:#b0f1c5;font-size:28px;">task_alt</span></div>
+          <div class="step-num">Adım 03</div>
+          <div class="step-title">Acente Teslim Eder</div>
+          <div class="step-desc">Acente kargoyu teslim eder, teslim edildi olarak işaretler. Cari otomatik güncellenir.</div>
+        </div>
+      </div>
+      <div class="dark-stats">
+        <div><div class="dark-stat-val">2</div><div class="dark-stat-label">KULLANICI_TIPI</div></div>
+        <div><div class="dark-stat-val">Anlık</div><div class="dark-stat-label">KARGO_DÜŞME</div></div>
+        <div><div class="dark-stat-val">Tek</div><div class="dark-stat-label">PANEL</div></div>
+        <div><div class="dark-stat-val">Sıfır</div><div class="dark-stat-label">KARMAŞIKLIK</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / GİRİŞ -->
+  <section class="cta-section" id="login-anchor">
+    <div class="cta-inner">
+      <div class="cta-title">HEMEN BAŞLAYIN.</div>
+      <p class="cta-desc">Acentenizi kurun, müşterilerinizi ekleyin. Kargo yönetimini dijitalleştirmek için tek bir adım yeterli.</p>
+      <button class="lp-cta" onclick="showLandingLogin()">
+        Giriş Yap / Kayıt Ol
+        <span class="material-symbols-outlined" style="font-size:20px;">rocket_launch</span>
+      </button>
+      <div class="cta-meta">
+        <span>VERSION: 1.0.0-STABLE</span>
+        <div class="cta-sep"></div>
+        <span>BUILD: 2025.05.22</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">KARGOSOFT</div>
+        <div class="footer-copy">© 2025 KARGOSOFT. Tüm hakları saklıdır.</div>
+      </div>
+      <div class="footer-links">
+        <a href="#">Gizlilik Politikası</a>
+        <a href="#">Kullanım Koşulları</a>
+        <a href="#">İletişim</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<div id="auth-screen" style="display:none;">
   <div class="auth-card">
     <div class="auth-logo">
       <div class="auth-logo-icon">
        <svg style="width: 20px; height: 20px; stroke: white;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-   </div>
+      </div>
       <div>
-        <span><strong>ADA</strong>KARGO</span>
+        <span><strong>KARGOSOFT</strong></span>
         <sub>Sistem Girişi</sub>
       </div>
     </div>
@@ -417,7 +755,7 @@
       <div class="logo-icon">
        <svg style="width: 16px; height: 16px; stroke: white;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
     </div>
-      <span class="logo-text"><strong>ADA</strong><span style="font-weight: 300;">KARGO</span></span>
+      <span class="logo-text" style="font-weight:700;letter-spacing:-0.3px;">KARGOSOFT</span>
     </div>
     <nav class="nav" id="nav-container"></nav>
     <div class="sidebar-user">
@@ -636,11 +974,11 @@ function toggleTheme() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const next = isDark ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
-  try { localStorage.setItem('ada-theme', next); } catch(e) {}
+  try { localStorage.setItem('kargosoft-theme', next); } catch(e) {}
 }
 (function applyStoredTheme() {
   try {
-    const saved = localStorage.getItem('ada-theme');
+    const saved = localStorage.getItem('kargosoft-theme');
     if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
   } catch(e) {}
 })();
@@ -658,6 +996,8 @@ async function checkAuth() {
   if (session) { 
     await loadProfile(session.user); 
     showApp(); 
+  } else {
+    showLanding();
   }
   
   sb.auth.onAuthStateChange(async (event, session) => { 
@@ -667,7 +1007,7 @@ async function checkAuth() {
         showApp(); 
       }
     } else { 
-      showAuth(); 
+      showLanding(); 
     } 
   });
 }
@@ -711,11 +1051,31 @@ async function logout() {
 }
 
 function showAuth() { 
+  document.getElementById('landing').style.display = 'none';
   document.getElementById('auth-screen').style.display = 'flex'; 
   document.getElementById('app').style.display = 'none'; 
 }
 
+function showLanding() {
+  document.getElementById('landing').style.display = 'block';
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+}
+
+function showLandingLogin() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+function scrollToLogin() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
 function showApp() { 
+  document.getElementById('landing').style.display = 'none';
   document.getElementById('auth-screen').style.display = 'none'; 
   document.getElementById('app').style.display = 'block'; 
   buildNav(); 
@@ -775,7 +1135,7 @@ function updateUserInfo() {
   document.getElementById('user-avatar-text').textContent = initials;
   document.getElementById('welcome-name').textContent = `Merhaba, ${currentProfile?.first_name || 'Kullanıcı'} 👋`;
   
-  document.querySelectorAll('.auth-logo span').forEach(el => el.innerHTML = '<strong>ADA</strong>KARGO');
+  document.querySelectorAll('.auth-logo span').forEach(el => el.innerHTML = 'KARGOSOFT');
 }
 
 function initMonthFilters() {
@@ -1331,8 +1691,141 @@ async function deleteKargo(id) {
 
 async function printKargoFisi(id) {
   const { data: k } = await sb.from('kargolar').select('*').eq('id', id).single();
-  const printWindow = window.open('', '_blank', 'width=560,height=794');
-  printWindow.document.write(`<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><title>Kargo Fişi - ${k.tracking_no}</title><style>@page{size:A4 portrait;margin:12mm;}*,*::before,*::after{box-sizing:border-box;}body{font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;color:#111;margin:0;padding:0;font-size:10pt;line-height:1.4;}.header-table{width:100%;border-collapse:collapse;margin-bottom:5px;}.logo-text{font-size:24pt;letter-spacing:-0.5px;color:#000;}.logo-text strong{font-weight:900;}.logo-text span{font-weight:300;color:#333;padding-left:2px;}.meta-container{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:20px;}.tracking-number{font-size:12pt;font-weight:bold;color:#333;}.header-meta{font-size:8.5pt;color:#444;text-align:right;}.address-table{width:100%;border-collapse:collapse;margin-bottom:20px;}.address-cell{width:50%;vertical-align:top;border:1px solid #111;padding:12px;}.address-cell.receiver{border-left:none;background-color:#fafafa;}.section-title{font-size:7.5pt;font-weight:bold;text-transform:uppercase;color:#555;border-bottom:1px solid #111;padding-bottom:4px;margin-bottom:6px;}.name-field{font-size:10.5pt;font-weight:bold;margin-bottom:4px;}.address-field{font-size:9pt;color:#222;min-height:40px;}.phone-field{font-weight:bold;margin-top:6px;font-size:9pt;}.notes-box{border:1px dashed #444;padding:10px;font-size:8.5pt;margin-bottom:30px;}.payment-wrapper{border-top:2px solid #000;padding-top:12px;margin-top:20px;}.payment-table{width:100%;border-collapse:collapse;}.payment-info-cell{vertical-align:middle;}.payment-status-title{font-size:8pt;font-weight:bold;text-transform:uppercase;color:#555;}.payment-status-value{font-size:11pt;font-weight:bold;margin-top:2px;}.payment-amount-cell{text-align:right;vertical-align:middle;}.payment-amount-title{font-size:8pt;font-weight:bold;text-transform:uppercase;color:#555;}.payment-amount-value{font-size:18pt;font-weight:900;color:#000;}.footer-notice{text-align:center;font-size:7pt;color:#777;margin-top:15px;}</style></head><body><table class="header-table"><tr><td class="logo-text"><strong>ADA</strong><span>KARGO</span></td></tr></table><div class="meta-container"><div class="tracking-number">Takip No: ${k.tracking_no}</div><div class="header-meta">Tarih: ${new Date(k.created_at).toLocaleDateString('tr-TR')}<br>Otomasyon Fişi</div></div><table class="address-table"><tr><td class="address-cell"><div class="section-title">Gönderici</div><div class="name-field">${k.g_adsoyad}</div><div class="address-field">${k.g_adres||'Sistemde Kayıtlı Adres'}<br>${k.g_il||''}</div><div class="phone-field">Tel: ${k.g_tel}</div></td><td class="address-cell receiver"><div class="section-title">Alıcı</div><div class="name-field">${k.a_adsoyad}</div><div class="address-field">${k.a_adres||''}<br><strong>${k.a_il||''}</strong></div><div class="phone-field">Tel: ${k.a_tel||'-'}</div></td></tr></table><div class="notes-box"><strong>Kargo Açıklaması / İçerik:</strong> ${k.aciklama||'Belirtilmedi'}</div><div class="payment-wrapper"><table class="payment-table"><tr><td class="payment-info-cell"><div class="payment-status-title">Ödeme Türü / Durumu</div><div class="payment-status-value">${k.odeme_tipi==='evet'?'KAPIDA ÖDEME (TAHSİLATLI)':'ÖDEME YOK (DİREKT TESLİM)'}</div></td><td class="payment-amount-cell">${k.odeme_tipi==='evet'?`<div class="payment-amount-title">Tahsil Edilecek Tutar</div><div class="payment-amount-value">${parseFloat(k.ucret||0).toLocaleString('tr-TR',{minimumFractionDigits:2})} ₺</div>`:''}</td></tr></table><div class="footer-notice">Ada Kargo Lojistik Otomasyon Sistemi</div></div><script>window.onload=function(){window.print();window.close();}<\/script></body></html>`);
+  const printWindow = window.open('', '_blank', 'width=620,height=870');
+  const tarih = new Date(k.created_at).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const saat = new Date(k.created_at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+  const tahsilatli = k.odeme_tipi === 'evet';
+  const tutar = parseFloat(k.ucret || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 });
+
+  printWindow.document.write(`<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Kargo Fişi — ${k.tracking_no}</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4 portrait; margin: 14mm 12mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', 'Helvetica Neue', sans-serif; color: #1A1916; background: #fff; font-size: 11pt; line-height: 1.5; }
+
+  /* HEADER */
+  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+  .brand { font-size: 26pt; font-weight: 800; color: #032416; letter-spacing: -0.5px; }
+  .header-meta { text-align: right; }
+  .header-meta .tracking { font-family: 'JetBrains Mono', monospace; font-size: 11pt; font-weight: 600; color: #2c6a47; margin-bottom: 2px; }
+  .header-meta .date { font-size: 8pt; color: #6B6860; }
+
+  /* DIVIDER */
+  .divider { height: 2px; background: #032416; margin: 10px 0 18px; }
+  .divider-dashed { height: 0; border-top: 1px dashed #C8C4BA; margin: 14px 0; }
+
+  /* ADDRESS TABLE */
+  .addr-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 16px; border: 1px solid #1A1916; border-radius: 4px; overflow: hidden; }
+  .addr-cell { padding: 14px 16px; }
+  .addr-cell.receiver { border-left: 1px solid #1A1916; background: #F5F4F0; }
+  .addr-section-title { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6B6860; border-bottom: 1px solid #E2DFD6; padding-bottom: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+  .addr-section-title.receiver-title { color: #032416; border-bottom-color: #C8C4BA; }
+  .addr-name { font-size: 12pt; font-weight: 700; color: #1A1916; margin-bottom: 4px; }
+  .addr-detail { font-size: 9pt; color: #6B6860; margin-bottom: 2px; min-height: 18px; }
+  .addr-phone { font-size: 9.5pt; font-weight: 600; color: #1A1916; margin-top: 6px; }
+
+  /* BARCODE STYLE TRACKING */
+  .tracking-banner { background: #032416; color: #fff; border-radius: 6px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .tracking-banner .t-label { font-size: 7.5pt; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.55); margin-bottom: 2px; }
+  .tracking-banner .t-no { font-family: 'JetBrains Mono', monospace; font-size: 16pt; font-weight: 500; color: #b0f1c5; letter-spacing: 0.04em; }
+  .tracking-banner .t-date { text-align: right; font-size: 8pt; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  /* NOTES */
+  .notes-box { border: 1px dashed #C8C4BA; border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; }
+  .notes-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6B6860; margin-bottom: 4px; }
+  .notes-val { font-size: 9pt; color: #1A1916; min-height: 16px; }
+
+  /* PAYMENT */
+  .payment-section { border-top: 2px solid #032416; padding-top: 14px; margin-top: 4px; }
+  .payment-row { display: flex; justify-content: space-between; align-items: center; }
+  .payment-type-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6B6860; margin-bottom: 3px; }
+  .payment-type-val { font-size: 11pt; font-weight: 700; color: #1A1916; }
+  .payment-type-val.green { color: #1E6B3A; }
+  .payment-amount-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6B6860; margin-bottom: 3px; text-align: right; }
+  .payment-amount-val { font-family: 'JetBrains Mono', monospace; font-size: 24pt; font-weight: 700; color: #032416; text-align: right; letter-spacing: -0.5px; }
+  .payment-badge { display: inline-block; background: #032416; color: #b0f1c5; font-size: 7.5pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; margin-top: 4px; }
+  .payment-badge.none { background: #F0EEE8; color: #9C9A94; }
+
+  /* FOOTER */
+  .doc-footer { margin-top: 20px; text-align: center; font-size: 7pt; color: #9C9A94; letter-spacing: 0.04em; }
+  .doc-footer strong { color: #6B6860; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="brand">KARGOSOFT</div>
+  <div class="header-meta">
+    <div class="tracking">Takip: ${k.tracking_no}</div>
+    <div class="date">${tarih} · ${saat}</div>
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- TRACKING BANNER -->
+<div class="tracking-banner">
+  <div>
+    <div class="t-label">Takip Numarası</div>
+    <div class="t-no">${k.tracking_no}</div>
+  </div>
+  <div class="t-date">
+    <div>Tarih: ${tarih}</div>
+    <div>Saat: ${saat}</div>
+  </div>
+</div>
+
+<!-- ADDRESS GRID -->
+<div class="addr-row">
+  <div class="addr-cell">
+    <div class="addr-section-title">↑ Gönderici</div>
+    <div class="addr-name">${k.g_adsoyad}</div>
+    <div class="addr-detail">${k.g_adres && k.g_adres !== 'Sistemde Kayıtlı Adres' ? k.g_adres : 'Sistemde Kayıtlı Adres'}</div>
+    <div class="addr-detail"><strong>${k.g_il || ''}</strong></div>
+    <div class="addr-phone">Tel: ${k.g_tel || '—'}</div>
+  </div>
+  <div class="addr-cell receiver">
+    <div class="addr-section-title receiver-title">↓ Alıcı</div>
+    <div class="addr-name">${k.a_adsoyad}</div>
+    <div class="addr-detail">${k.a_adres || ''}</div>
+    <div class="addr-detail"><strong>${k.a_il || ''}</strong></div>
+    <div class="addr-phone">Tel: ${k.a_tel || '—'}</div>
+  </div>
+</div>
+
+<!-- NOTES -->
+<div class="notes-box">
+  <div class="notes-label">Kargo Açıklaması / İçerik</div>
+  <div class="notes-val">${k.aciklama || 'Belirtilmedi'}</div>
+</div>
+
+<!-- PAYMENT -->
+<div class="payment-section">
+  <div class="payment-row">
+    <div>
+      <div class="payment-type-label">Ödeme Türü</div>
+      <div class="payment-type-val ${tahsilatli ? 'green' : ''}">${tahsilatli ? 'KAPIDA ÖDEME (TAHSİLATLI)' : 'DİREKT TESLİM'}</div>
+      <div><span class="payment-badge ${tahsilatli ? '' : 'none'}">${tahsilatli ? 'TAHSİL EDİLECEK' : 'ÖDEMESİZ'}</span></div>
+    </div>
+    ${tahsilatli ? `<div>
+      <div class="payment-amount-label">Tahsil Edilecek Tutar</div>
+      <div class="payment-amount-val">${tutar} ₺</div>
+    </div>` : ''}
+  </div>
+</div>
+
+<div class="divider-dashed" style="margin-top:20px;"></div>
+<div class="doc-footer">
+  <strong>KARGOSOFT</strong> — Kargo Yönetim Sistemi · ${k.tracking_no} · ${tarih}
+</div>
+
+<script>window.onload = function() { window.print(); window.close(); };<\/script>
+</body></html>`);
   printWindow.document.close();
 }
 
